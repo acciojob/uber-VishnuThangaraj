@@ -6,14 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.driver.model.Customer;
-import com.driver.model.Driver;
 import com.driver.repository.CustomerRepository;
 import com.driver.repository.DriverRepository;
 import com.driver.repository.TripBookingRepository;
 import com.driver.model.TripStatus;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,7 +41,16 @@ public class CustomerServiceImpl implements CustomerService {
 	public TripBooking bookTrip(int customerId, String fromLocation, String toLocation, int distanceInKm) throws Exception{
 		//Book the driver with lowest driverId who is free (cab available variable is Boolean.TRUE). If no driver is available, throw "No cab available!" exception
 		//Avoid using SQL query
+		Optional<Customer> c = customerRepository2.findById(customerId);
+		Customer customer = c.get();
+
 		TripBooking trip = new TripBooking();
+
+		trip.setFromLocation(fromLocation);
+		trip.setToLocation(toLocation);
+		trip.setCustomer(customer);
+		trip.setDistanceInKm(distanceInKm);
+
 
 		return trip;
 	}
@@ -56,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
 				tripBookingRepository2.findById(tripId);
 		TripBooking trip = tripBookingOptional.get();
 
-		trip.setTripStatus(TripStatus.CANCELED);
+		trip.setStatus(TripStatus.CANCELED);
 
 		tripBookingRepository2.save(trip);
 	}
@@ -68,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
 				tripBookingRepository2.findById(tripId);
 		TripBooking trip = tripBookingOptional.get();
 
-		trip.setTripStatus(TripStatus.COMPLETED);
+		trip.setStatus(TripStatus.COMPLETED);
 
 		tripBookingRepository2.save(trip);
 	}
