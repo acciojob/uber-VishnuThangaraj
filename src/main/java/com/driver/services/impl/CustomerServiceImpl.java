@@ -85,7 +85,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 		trip.setStatus(TripStatus.CANCELED);
 
-		tripBookingRepository2.delete(trip);
 	}
 
 	@Override
