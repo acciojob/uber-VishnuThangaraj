@@ -71,6 +71,7 @@ public class CustomerServiceImpl implements CustomerService {
 		trip.setStatus(TripStatus.CONFIRMED);
 
 		customerRepository2.save(customer);
+		driverRepository2.save(rider);
 
 		return trip;
 	}
